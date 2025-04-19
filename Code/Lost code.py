@@ -41,9 +41,9 @@ textos = {
     ],
     4: [
         "Elige sabiamente que harás:",
-        "1. Explorar la cueva",
-        "2. Salir a investigar el bosque",
-        "3. Gritar y pedir ayuda",
+        "1. Explorar la cueva.",
+        "2. Salir a investigar el bosque.",
+        "3. Gritar y pedir ayuda.",
     ],
     5: [
         "Explorando la cueva...",
