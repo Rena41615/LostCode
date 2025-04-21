@@ -1,26 +1,35 @@
 import pygame
+import os
+
 pygame.init()
 
 # Configuración de la pantalla y fuente
 pantalla = pygame.display.set_mode((608, 608))
-try:
-    imagenes = {
-        0: pygame.transform.scale(pygame.image.load("Lost Code/Images/tierra.png"), (608, 608)),
-        1: pygame.transform.scale(pygame.image.load("Lost Code/Images/celda.png"), (608, 608)),
-        2: pygame.transform.scale(pygame.image.load("Lost Code/Images/vozmisteriosa.png"), (608, 608)),
-        3: pygame.transform.scale(pygame.image.load("Lost Code/Images/vozmisteriosa.png"), (608, 608)),
-        4: pygame.transform.scale(pygame.image.load("Lost Code/Images/3 options.png"), (608, 608)),
-        5: pygame.transform.scale(pygame.image.load("Lost Code/Images/cuevaexpo.png"), (608, 608)),
-    }
-except FileNotFoundError as e:
-    print(f"Error al cargar una imagen: {e}")
-    pygame.quit()
-    exit()
 
+# Función para cargar imágenes de forma segura
+def cargar_imagen(ruta, dimensiones):
+    try:
+        return pygame.transform.scale(pygame.image.load(ruta), dimensiones)
+    except FileNotFoundError:
+        print(f"Error: No se pudo cargar la imagen en {ruta}")
+        pygame.quit()
+        exit()
+
+# Cargar imágenes
+imagenes = {
+    0: cargar_imagen(os.path.join("Images", "tierra.png"), (608, 608)),
+    1: cargar_imagen(os.path.join("Images", "celda.png"), (608, 608)),
+    2: cargar_imagen(os.path.join("Images", "vozmisteriosa.png"), (608, 608)),
+    3: cargar_imagen(os.path.join("Images", "vozmisteriosa.png"), (608, 608)),
+    4: cargar_imagen(os.path.join("Images", "3 options.png"), (608, 608)),
+    5: cargar_imagen(os.path.join("Images", "cuevaexpo.png"), (608, 608)),
+}
+
+# Cargar fuente
 try:
-    font = pygame.font.Font("Lost Code/Fonts/font.ttf", 36)
+    font = pygame.font.Font(os.path.join("Fonts", "font.ttf"), 36)
 except FileNotFoundError:
-    print("No se encontró el archivo de fuente. Verifica la ruta.")
+    print("Error: No se encontró el archivo de fuente. Verifica la ruta.")
     pygame.quit()
     exit()
 
@@ -57,9 +66,10 @@ estado = 0  # 0: tierra, 1: celda, 2: vozmisteriosa, 4: opciones
 nombre = ""  # Variable para almacenar el nombre ingresado
 opcion_seleccionada = 0  # Índice de la opción seleccionada
 
+# Función para mostrar texto
 def mostrar_texto(lineas, y_offset=10, color=(155, 155, 155), opcion_activa=None):
-    for i, linea in enumerate(lineas):  # Renderiza y muestra las líneas de texto en la pantalla.
-        if opcion_activa is not None and i == opcion_activa + 1:  # Resaltar solo las opciones seleccionables
+    for i, linea in enumerate(lineas):
+        if opcion_activa is not None and i == opcion_activa + 1:  # Resaltar opciones seleccionables
             texto = font.render(linea, True, (255, 255, 255))  # Texto blanco para la opción activa
         else:
             texto = font.render(linea, True, color)
