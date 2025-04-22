@@ -23,6 +23,7 @@ imagenes = {
     3: cargar_imagen(os.path.join("Images", "vozmisteriosa.png"), (608, 608)),
     4: cargar_imagen(os.path.join("Images", "3 options.png"), (608, 608)),
     5: cargar_imagen(os.path.join("Images", "cuevaexpo.png"), (608, 608)),
+    6: cargar_imagen(os.path.join("Images", "bosque_expo.png"), (608, 608)),
 }
 
 # Cargar fuente
