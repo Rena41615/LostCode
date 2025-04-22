@@ -1,9 +1,6 @@
 import pygame
 import os
-
 pygame.init()
-
-# Configuración de la pantalla y fuente
 pantalla = pygame.display.set_mode((608, 608))
 
 # Función para cargar imágenes de forma segura
@@ -14,8 +11,6 @@ def cargar_imagen(ruta, dimensiones):
         print(f"Error: No se pudo cargar la imagen en {ruta}")
         pygame.quit()
         exit()
-
-# Cargar imágenes
 imagenes = {
     0: cargar_imagen(os.path.join("Images", "tierra.png"), (608, 608)),
     1: cargar_imagen(os.path.join("Images", "celda.png"), (608, 608)),
@@ -24,9 +19,10 @@ imagenes = {
     4: cargar_imagen(os.path.join("Images", "3 options.png"), (608, 608)),
     5: cargar_imagen(os.path.join("Images", "cuevaexpo.png"), (608, 608)),
     6: cargar_imagen(os.path.join("Images", "bosque_expo.png"), (608, 608)),
+    7: cargar_imagen(os.path.join("Images", "pedirayuda.png"), (608, 608)),
 }
 
-# Cargar fuente
+# Font
 try:
     font = pygame.font.Font(os.path.join("Fonts", "font.ttf"), 36)
 except FileNotFoundError:
@@ -60,10 +56,17 @@ textos = {
         "Al final de la cueva notas un artefacto ",
         "brillante, decides acercarte a ver",
     ],
+    6: [
+        "Encontraste una laguna con aguas calmas..",
+        "Pero no del todo",
+    ],
+    7: [
+        "Gritas y pides ayuda,",
+        "Vez a una criatura extraña venir...",
+    ],
 }
 
-# Estado inicial
-estado = 0  # 0: tierra, 1: celda, 2: vozmisteriosa, 4: opciones
+estado = 0  # Estado inicial del juego
 nombre = ""  # Variable para almacenar el nombre ingresado
 opcion_seleccionada = 0  # Índice de la opción seleccionada
 
@@ -98,14 +101,11 @@ while running:
                     opcion_seleccionada = (opcion_seleccionada + 1) % 3
                 elif event.key == pygame.K_RETURN:  # Confirmar la opción
                     if opcion_seleccionada == 0:
-                        print("Explorando la cueva...")
                         estado = 5
                     elif opcion_seleccionada == 1:
-                        print("Saliendo a explorar el bosque...")
-                        running = False  # Terminar el juego
+                        estado = 6
                     elif opcion_seleccionada == 2:
-                        print("Gritando y pidiendo ayuda...")
-                        running = False  # Terminar el juego
+                        estado = 7
             elif event.key == pygame.K_RETURN:  # Avanzar entre estados
                 if estado < 4:
                     estado += 1
@@ -127,6 +127,10 @@ while running:
         saludo = f"{nombre}...tu viaje apenas comienza..."
         texto_saludo = font.render(saludo, True, (155, 155, 155))  # Texto gris
         pantalla.blit(texto_saludo, (10, 10))
-    pygame.display.flip()
+    elif estado == 6:  # Mostrar la pregunta de si ir a ver la laguna
+            pregunta = "¿Irás a ver? (si/no)"
+            texto_pregunta = font.render(pregunta, True, (155, 155, 155))  # Texto gris
+            pantalla.blit(texto_pregunta, (10, 90))
 
+    pygame.display.flip()
 pygame.quit()
